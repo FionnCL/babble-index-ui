@@ -1,53 +1,52 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+    const [input, setInput] = useState(""); 
+    const [topicMessage, setTopicMessage] = useState("");
+    const [results, setResults] = useState([]);
 
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
+    function handle_topic() {
+        // Display wait message.
+        setTopicMessage("Searching for recent sentiment on " + input + "...");
 
-  return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
+        // Async await for results.
+        (async () => {
+            // Sets results.
+            setResults(await invoke("topic_handler", { input }));
+            // Displays 'results found', message.
+            setTopicMessage("Displaying results on " + input + "...");
+        });
+    }
+    
+    // Uppercase is standard convention for component functions.
+    function Results(r: string[]) {
+        if (r && r.length > 0) {
+            return <p>{r.toString()}</p>;
+        }
+        return <p></p>;
+    }
 
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
+    return (
+        <div className="container">
+        <h1>Babble Index</h1>
+        <form
         className="row"
         onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-
-      <p>{greetMsg}</p>
-    </div>
-  );
+            e.preventDefault();
+            handle_topic();
+        }}>
+            <input
+            id="greet-input"
+            onChange={(e) => setInput(e.currentTarget.value)}
+            placeholder="Enter a topic..."/>
+            <button type="submit">Search</button>
+        </form>
+        <p>{topicMessage}</p>
+        {Results(results)}
+        </div>
+    );
 }
 
 export default App;

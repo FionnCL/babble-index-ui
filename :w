@@ -1,0 +1,35 @@
+import { useState } from "react";
+import { invoke } from "@tauri-apps/api/tauri";
+import "./App.css";
+
+function App() {
+    const [input, setInput] = useState(""); 
+  const [topic, setTopic] = useState("");
+
+  async function greet() {
+    setTopic(await invoke("topic_handler", { input }));
+  }
+
+  return (
+    <div className="container">
+      <form
+        className="row"
+        onSubmit={(e) => {
+          e.preventDefault();
+          greet();
+        }}
+      >
+        <input
+          id="greet-input"
+          onChange={(e) => setInput(e.currentTarget.value)}
+          placeholder="Enter a topic..."
+        />
+        <button type="submit">Greet</button>
+      </form>
+
+      <p>{topic}</p>
+    </div>
+  );
+}
+
+export default App;
