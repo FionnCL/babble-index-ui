@@ -8,6 +8,8 @@ fn topic_handler(input: &str) -> String {
     // google search
     // take top ten
     // return somehow
+    
+    
 
     format!("Showing results for {}...", input)
 }
