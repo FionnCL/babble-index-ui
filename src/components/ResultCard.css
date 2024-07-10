@@ -1,0 +1,29 @@
+.resultcard {
+    max-width: 64rem;
+    max-height: 12rem;
+
+    padding: 1em; 
+    margin: 1em 0;
+
+    color: white;
+
+    border-style: solid;
+    border-color: white;
+    border-width: 1px;
+}
+
+.resultcard-information {
+    border-bottom: 1px solid white;
+}
+
+.resultcard-information > h1 {
+    font-size: 1.5rem;
+}
+
+.resultcard-information > h2 {
+    font-size: .75rem;
+}
+
+.resultcard-summary {
+    font-style: italic;
+}

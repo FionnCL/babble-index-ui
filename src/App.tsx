@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios, { 
     AxiosResponse, 
     AxiosRequestConfig, 
@@ -9,9 +9,11 @@ import axios, {
 import "./App.css";
 
 import { SearchResults } from "./dtos/SearchResults";
+import ResultCard from "./components/ResultCard";
 
 const axiosSearchClient = axios.create({
-  baseURL: 'https://search-engine-e28d7.web.app',
+    //baseURL: 'https://search-engine-e28d7.web.app',
+    baseURL: 'http://localhost:3000',
 });
 
 const axiosSearchConfig: AxiosRequestConfig = {
@@ -32,10 +34,10 @@ function App() {
         const searchResponse: AxiosResponse = await axiosSearchClient.get(
             `/search/topic/${input}`, axiosSearchConfig);
         
+        // Set the results of the search;
         console.log(searchResponse.data);
+        setResults(searchResponse.data);
 
-        // Sets results.
-        // setResults("");
         // Displays 'results found', message.
         if (results) {
             setTopicMessage(`Displaying results on ${input}...`);
@@ -49,13 +51,13 @@ function App() {
         if (results) {
             // Make component array:
             return results.items.map((item) => {
-                return(
-                    <div>
-                        <p>{item.title}</p>
-                        <p>{item.link}</p>
-                        <p>{item.summary}</p>
-                    </div>
-                )
+                return (
+                    <ResultCard
+                        title={item.title} 
+                        link={item.link}
+                        summary={item.summary}
+                    />
+                );
             });
         }
         // If no results, return nothing, essentially.
@@ -64,21 +66,24 @@ function App() {
 
     return (
         <div className="container">
-        <h1>Babble Index</h1>
-        <form
-        className="row"
-        onSubmit={(e) => {
-            e.preventDefault();
-            handle_topic();
-        }}>
-            <input
-            id="greet-input"
-            onChange={(e) => setInput(e.currentTarget.value)}
-            placeholder="Enter a topic..."/>
-            <button type="submit">Search</button>
-        </form>
-        <p>{topicMessage}</p>
-        {Results(results)}
+            <h1>Babble Index</h1>
+            <form
+            className="row"
+            onSubmit={(e) => {
+                e.preventDefault();
+                handle_topic();
+            }}>
+                <input
+                id="greet-input"
+                onChange={(e) => setInput(e.currentTarget.value)}
+                placeholder="Enter a topic..."
+                />
+                <button type="submit">Search</button>
+            </form>
+            <p>{topicMessage}</p>
+            <div className="resultcards">
+                {Results(results)}
+            </div>
         </div>
     );
 }
