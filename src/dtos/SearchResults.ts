@@ -3,6 +3,7 @@ export interface SearchResults {
         {
             title: string,
             link: string,
+            displayLink: string,
             summary: string
         }
     ]

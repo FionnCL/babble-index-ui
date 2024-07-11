@@ -34,9 +34,7 @@ function App() {
             `/search/topic/${input}`, axiosSearchConfig);
         
         // Set the results of the search;
-        console.log(searchResponse.data);
         setResults(searchResponse.data);
-
     }
 
     // When the results variable changes, this is invoked
@@ -59,6 +57,7 @@ function App() {
                 key={idx}
                 title={item.title} 
                 link={item.link}
+                displayLink={item.displayLink}
                 summary={item.summary}
                 />
             );
