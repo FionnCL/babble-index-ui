@@ -1,29 +1,50 @@
 .resultcard {
-    max-width: 64rem;
-    max-height: 12rem;
+    width: 45%;
+    max-height: 24rem;
 
     padding: 1em; 
-    margin: 1em 0;
+    margin: 1em;
 
     color: white;
 
-    border-style: solid;
-    border-color: white;
-    border-width: 1px;
+    border-radius: .25em;
+    box-shadow: 0px 0px .25em 2px rgba(255, 255, 255, 0.1);
 }
 
 .resultcard-information {
-    border-bottom: 1px solid white;
+    padding: 0 0 .5rem 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .resultcard-information > h1 {
+    margin: .125rem;
+    padding: 0;
+
+    text-align: left;
     font-size: 1.5rem;
 }
 
-.resultcard-information > h2 {
+.source {
+    display: inline-flex;
+}
+
+.source > h2 {
+    color: rgba(255, 255, 255, 0.75);
     font-size: .75rem;
 }
 
+.source > .source-link {
+    color: darkcyan;
+}
+
+.source-link:hover {
+    cursor: grab;
+}
+
 .resultcard-summary {
-    font-style: italic;
+    text-align: left;
+
+    padding: 0;
+    margin: 0;
 }

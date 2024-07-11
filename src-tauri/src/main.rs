@@ -7,7 +7,7 @@
 // Functions that can be "invoked" by the Tauri "invoke" -
 // method on the frontend.
 #[tauri::command]
-fn topic_handler(input: &str) {
+fn get_results(_input: &str) {
     // This is prototyping, remove the unwraps later and- 
     // deal with all cases later.
     println!("Test function.");
@@ -17,7 +17,7 @@ fn topic_handler(input: &str) {
 fn main() {
     tauri::Builder::default()
         // add functions to invoke handler array.
-        .invoke_handler(tauri::generate_handler![topic_handler])
+        .invoke_handler(tauri::generate_handler![get_results])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

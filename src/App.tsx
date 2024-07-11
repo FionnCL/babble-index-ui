@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+//import { invoke } from "@tauri-apps/api/tauri";
+import { useState, useEffect } from "react";
 import axios, { 
     AxiosResponse, 
     AxiosRequestConfig, 
     RawAxiosRequestHeaders 
 } from 'axios';
-//import { invoke } from "@tauri-apps/api/tauri";
 
 import "./App.css";
 
@@ -12,7 +12,6 @@ import { SearchResults } from "./dtos/SearchResults";
 import ResultCard from "./components/ResultCard";
 
 const axiosSearchClient = axios.create({
-    //baseURL: 'https://search-engine-e28d7.web.app',
     baseURL: 'http://localhost:3000',
 });
 
@@ -30,7 +29,7 @@ function App() {
     async function handle_topic() {
         // Display wait message.
         setTopicMessage("Searching for recent sentiment on " + input + "...");
-
+        
         const searchResponse: AxiosResponse = await axiosSearchClient.get(
             `/search/topic/${input}`, axiosSearchConfig);
         
@@ -38,30 +37,38 @@ function App() {
         console.log(searchResponse.data);
         setResults(searchResponse.data);
 
-        // Displays 'results found', message.
-        if (results) {
-            setTopicMessage(`Displaying results on ${input}...`);
-        } else {
-            setTopicMessage(`Searching for sentiment on ${input}`);
-        }
     }
-    
-    // Uppercase is the usual convention for component-returning functions.
-    function Results(results: SearchResults | undefined) {
-        if (results) {
-            // Make component array:
-            return results.items.map((item) => {
-                return (
-                    <ResultCard
-                        title={item.title} 
-                        link={item.link}
-                        summary={item.summary}
-                    />
-                );
-            });
+
+    // When the results variable changes, this is invoked
+    useEffect(() => {
+        // Displays 'results found', message.
+        if (results && topicMessage) {
+            setTopicMessage(`Displaying results on ${input}...`);
         }
+    }, [results, topicMessage])
+    
+    // Construct an array of ResultCard elements.
+    function Results(results: SearchResults | undefined) {
         // If no results, return nothing, essentially.
-        return <p>Generating summaries...</p>;
+        if (!results) { return <p></p>; }
+        
+        // Make component array:
+        return results.items.map((item, idx) => {
+            return (
+                <ResultCard
+                key={idx}
+                title={item.title} 
+                link={item.link}
+                summary={item.summary}
+                />
+            );
+        });
+    }
+
+    function refresh(){
+        setInput("");
+        setTopicMessage("");
+        setResults(undefined);
     }
 
     return (
@@ -79,6 +86,7 @@ function App() {
                 placeholder="Enter a topic..."
                 />
                 <button type="submit">Search</button>
+                <button type="reset" className="restart" onClick={refresh}>⟳ </button>
             </form>
             <p>{topicMessage}</p>
             <div className="resultcards">

@@ -10,7 +10,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@tauri-apps/api": "^1",
+    "@tauri-apps/api": "^1.6.0",
     "axios": "^1.7.2",
     "firebase": "^10.12.3",
     "firebase-tools": "^13.13.1",
