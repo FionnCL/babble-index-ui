@@ -39,7 +39,7 @@
 }
 
 .source-link:hover {
-    cursor: grab;
+    cursor: pointer;
 }
 
 .resultcard-summary {

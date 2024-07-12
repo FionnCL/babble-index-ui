@@ -1,0 +1,25 @@
+.navbar {
+    display: inline-flex;
+    justify-content: space-between;
+
+    margin: .5em 0 .5em 0;
+    padding: 0;
+
+    color: white;
+    
+    border-radius: 1.5em;
+    background-color: #202020;
+}
+
+.navbar > h1 {
+    font-size: 1.25rem;
+    margin: .5rem 1rem .25rem 1rem;
+}
+
+.navbar > img {
+    margin: .25rem;
+}
+
+.navbar > img:hover {
+    cursor: pointer;
+}

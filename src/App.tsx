@@ -4,20 +4,21 @@ import axios, {
     AxiosResponse, 
     AxiosRequestConfig, 
     RawAxiosRequestHeaders 
-} from 'axios';
+} from "axios";
 
 import "./App.css";
 
 import { SearchResults } from "./dtos/SearchResults";
 import ResultCard from "./components/ResultCard";
+import Navbar from "./components/Navbar";
 
 const axiosSearchClient = axios.create({
-    baseURL: 'http://localhost:3000',
+    baseURL: "http://localhost:3000",
 });
 
 const axiosSearchConfig: AxiosRequestConfig = {
     headers: {
-        'Accept': 'application/json'
+        "Accept": "application/json"
     } as RawAxiosRequestHeaders,
 };
 
@@ -39,7 +40,7 @@ function App() {
 
     // When the results variable changes, this is invoked
     useEffect(() => {
-        // Displays 'results found', message.
+        // Displays "results found", message.
         if (results && topicMessage) {
             setTopicMessage(`Displaying results on ${input}...`);
         }
@@ -72,7 +73,7 @@ function App() {
 
     return (
         <div className="container">
-            <h1>Babble Index</h1>
+            <Navbar/>
             <form
             className="row"
             onSubmit={(e) => {
