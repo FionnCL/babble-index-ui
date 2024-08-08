@@ -1,17 +1,39 @@
+import { useState, useEffect } from "react";
 import { open } from "@tauri-apps/api/shell";
 
 import idiro from "../images/idiro.png";
 import './Navbar.css';
 
+interface NavbarProps {
+    currentTab(tab: string): void;
+}
 
-function Navbar(){
+function Navbar({ currentTab } : NavbarProps){
+    const [tab, setTab] = useState("topic");
+
     const openIdiroLink = () => {
         open("https://idiro.com/");
     };
 
+    useEffect(()=> {
+            currentTab(tab);
+    }, [tab]);
+    
+    const changeToTopic = () => {
+        setTab("topic");
+    }
+
+    const changeToWatchdog = () => {
+        setTab("watchdog");
+    }
+
     return(
         <div className="navbar">
-            <h1>Babble Index</h1>
+            <div className="left">
+                <h1 className="title">Babble Index</h1>
+                <h1 className="tab" onClick={changeToTopic}>Topic Search</h1>
+                <h1 className="tab" onClick={changeToWatchdog}>Watchdog</h1>
+            </div>
             <img onClick={openIdiroLink} alt="The Idiro Analytics logo." src={idiro}/>
         </div>
     );

@@ -26,6 +26,7 @@ function App() {
     const [input, setInput] = useState(""); 
     const [topicMessage, setTopicMessage] = useState("");
     const [results, setResults] = useState<SearchResults|undefined>(undefined);
+    const [tab, setTab] = useState("topic");
 
     async function handle_topic() {
         // Display wait message.
@@ -38,11 +39,11 @@ function App() {
         setResults(searchResponse.data);
     }
 
-    // When the results variable changes, this is invoked
+    // When the results/topicMessage variables change, this is invoked.
     useEffect(() => {
         // Displays "results found", message.
         if (results && topicMessage) {
-            setTopicMessage(`Displaying results on ${input}...`);
+            setTopicMessage(`Displaying results on ${input}`);
         }
     }, [results, topicMessage])
     
@@ -71,27 +72,84 @@ function App() {
         setResults(undefined);
     }
 
+    const handleTabChange = (currentTab: string) => {
+        setTab(currentTab); 
+    }
+
+    function displayTopicSearch(){
+        return(
+            <div>
+                <h1>Search By Topic</h1>
+                <form
+                className="row"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handle_topic();
+                }}>
+                    <input
+                    id="greet-input"
+                    onChange={(e) => setInput(e.currentTarget.value)}
+                    placeholder="Enter a topic..."
+                    />
+                    <button type="submit">Search</button>
+                    <button type="reset" className="restart" 
+                    onClick={refresh}>⟳ </button>
+                </form>
+                <p>{topicMessage}</p>
+                <div className="resultcards">
+                    {Results(results)}
+                </div>
+            </div>
+        );
+    }
+
+    function displayWatchdog(){
+        return(
+            <div>
+                <h1>Live Updates</h1>
+                <form
+                className="row"
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    handle_topic();
+                }}>
+                    <input
+                    id="greet-input"
+                    onChange={(e) => setInput(e.currentTarget.value)}
+                    placeholder="Enter a topic..."
+                    />
+                    <button type="submit">Search</button>
+                    <button type="reset" className="restart" 
+                    onClick={refresh}>⟳ </button>
+                </form>
+                <p>{topicMessage}</p>
+                <div className="resultcards">
+                    {Results(results)}
+                </div>            
+            </div>
+        );
+    }
+
+    function displayTab(): JSX.Element {
+        switch(tab){
+            case "topic":
+                return displayTopicSearch();
+            case "watchdog":
+                return displayWatchdog();
+            default:
+                return displayTopicSearch();
+        }
+    }
+
+    // Check for tab changes.
+    useEffect(() => {
+        displayTab(); 
+    }, [tab]);
+
     return (
         <div className="container">
-            <Navbar/>
-            <form
-            className="row"
-            onSubmit={(e) => {
-                e.preventDefault();
-                handle_topic();
-            }}>
-                <input
-                id="greet-input"
-                onChange={(e) => setInput(e.currentTarget.value)}
-                placeholder="Enter a topic..."
-                />
-                <button type="submit">Search</button>
-                <button type="reset" className="restart" onClick={refresh}>⟳ </button>
-            </form>
-            <p>{topicMessage}</p>
-            <div className="resultcards">
-                {Results(results)}
-            </div>
+            <Navbar currentTab={handleTabChange}/>
+            {displayTab()}
         </div>
     );
 }
