@@ -9,11 +9,12 @@ import axios, {
 import "./App.css";
 
 import { SearchResults } from "./dtos/SearchResults";
+import { PostUser } from "./dtos/PostUser";
 import ResultCard from "./components/ResultCard";
 import Navbar from "./components/Navbar";
 
 const axiosSearchClient = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "http://localhost:4000",
 });
 
 const axiosSearchConfig: AxiosRequestConfig = {
@@ -22,11 +23,17 @@ const axiosSearchConfig: AxiosRequestConfig = {
     } as RawAxiosRequestHeaders,
 };
 
+const axiosTranscriptClient = axios.create({
+    baseURL: "http://localhost:3000",
+});
+
 function App() {
     const [input, setInput] = useState(""); 
+    const [username, setUsername] = useState("");
     const [topicMessage, setTopicMessage] = useState("");
     const [results, setResults] = useState<SearchResults|undefined>(undefined);
     const [tab, setTab] = useState("topic");
+    const [loggedIn, setLoggedIn] = useState(false);
 
     async function handle_topic() {
         // Display wait message.
@@ -107,25 +114,6 @@ function App() {
         return(
             <div>
                 <h1>Live Updates</h1>
-                <form
-                className="row"
-                onSubmit={(e) => {
-                    e.preventDefault();
-                    handle_topic();
-                }}>
-                    <input
-                    id="greet-input"
-                    onChange={(e) => setInput(e.currentTarget.value)}
-                    placeholder="Enter a topic..."
-                    />
-                    <button type="submit">Search</button>
-                    <button type="reset" className="restart" 
-                    onClick={refresh}>⟳ </button>
-                </form>
-                <p>{topicMessage}</p>
-                <div className="resultcards">
-                    {Results(results)}
-                </div>            
             </div>
         );
     }
@@ -146,10 +134,61 @@ function App() {
         displayTab(); 
     }, [tab]);
 
+    async function checkForUser() {
+        // Check database for user using API Request to audio API.
+        // If there is no user, wait for the API to create one,
+        // and then: setLoggedIn(true);
+
+        const userObject: PostUser = {
+            username: username
+        }
+
+        const loginResponse: AxiosResponse = await axiosTranscriptClient
+        .post(`/verify/user`, 
+              userObject, 
+              axiosSearchConfig
+        );
+
+        if(loginResponse.status === 200) {
+            setLoggedIn(true); 
+        }
+    }
+
+    function loginHandler(): JSX.Element {
+        if(loggedIn){
+            return (
+                <div>
+                    <Navbar currentTab={handleTabChange}/>
+                    {displayTab()}
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        checkForUser();
+                    }}>
+                        <input
+                        id="login-information"
+                        onChange={(e) => setUsername(e.currentTarget.value)}
+                        placeholder="Username"
+                        />
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
+            );
+        }
+    }
+
+    useEffect(() => {
+        loginHandler();
+    },[loggedIn]);
+
     return (
         <div className="container">
-            <Navbar currentTab={handleTabChange}/>
-            {displayTab()}
+            {loginHandler()}
         </div>
     );
 }
