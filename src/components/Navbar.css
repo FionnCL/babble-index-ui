@@ -2,6 +2,8 @@
     display: inline-flex;
     justify-content: space-between;
 
+    width: 90vw;
+
     margin: .5em 0 .5em 0;
     padding: 0;
 
@@ -16,11 +18,21 @@
     justify-content: space-between;
 }
 
+.centre {
+    display: inline-flex;
+    justify-content: space-between;
+}
+
 .tab:hover {
     cursor: pointer; 
 }
 
 .left > h1 {
+    font-size: 1.25rem;
+    margin: .5rem 1rem .25rem 1rem;
+}
+
+.centre > h1 {
     font-size: 1.25rem;
     margin: .5rem 1rem .25rem 1rem;
 }

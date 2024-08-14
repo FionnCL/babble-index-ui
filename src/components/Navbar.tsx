@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { open } from "@tauri-apps/api/shell";
+import { useState, useEffect } from 'react';
+import { open } from '@tauri-apps/api/shell';
 
-import idiro from "../images/idiro.png";
+import idiro from '../images/idiro.png';
 import './Navbar.css';
 
 interface NavbarProps {
@@ -9,10 +9,10 @@ interface NavbarProps {
 }
 
 function Navbar({ currentTab } : NavbarProps){
-    const [tab, setTab] = useState("topic");
+    const [tab, setTab] = useState('topic');
 
     const openIdiroLink = () => {
-        open("https://idiro.com/");
+        open('https://idiro.com/');
     };
 
     useEffect(()=> {
@@ -20,21 +20,23 @@ function Navbar({ currentTab } : NavbarProps){
     }, [tab]);
     
     const changeToTopic = () => {
-        setTab("topic");
+        setTab('topic');
     }
 
-    const changeToWatchdog = () => {
-        setTab("watchdog");
+    const changeToLiveUpdates = () => {
+        setTab('live');
     }
 
     return(
-        <div className="navbar">
-            <div className="left">
-                <h1 className="title">Babble Index</h1>
-                <h1 className="tab" onClick={changeToTopic}>Topic Search</h1>
-                <h1 className="tab" onClick={changeToWatchdog}>Watchdog</h1>
+        <div className='navbar'>
+            <div className='left'>
+                <h1 className='title'>Babble Index</h1>
             </div>
-            <img onClick={openIdiroLink} alt="The Idiro Analytics logo." src={idiro}/>
+            <div className='centre'>
+                <h1 className='tab' onClick={changeToTopic}>Topic Search</h1>
+                <h1 className='tab' onClick={changeToLiveUpdates}>Live Updates</h1>
+            </div>
+            <img onClick={openIdiroLink} alt='The Idiro Analytics logo.' src={idiro}/>
         </div>
     );
 }
