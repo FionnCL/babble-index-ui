@@ -138,6 +138,9 @@ function App() {
         // Check database for user using API Request to audio API.
         // If there is no user, wait for the API to create one,
         // and then: setLoggedIn(true);
+        // Keep in mind this does not save user sessions(not only-
+        // in practice, but also not in a secure fashion), this is-
+        // just proof of concept.
 
         const userObject: PostUser = {
             username: username
@@ -184,7 +187,7 @@ function App() {
 
     useEffect(() => {
         loginHandler();
-    },[loggedIn]);
+    }, [loggedIn]);
 
     return (
         <div className="container">
