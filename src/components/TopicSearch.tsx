@@ -10,7 +10,7 @@ import ResultCard from "./ResultCard";
 import './TopicSearch.css';
 
 const axiosSearchClient = axios.create({
-    baseURL: "http://localhost:4000",
+    baseURL: "http://localhost:3000",
 });
 
 const axiosSearchConfig: AxiosRequestConfig = {

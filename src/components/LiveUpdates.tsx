@@ -49,7 +49,8 @@ function LiveUpdates(){
                         onChange={(e) => setInput(e.currentTarget.value)}
                         placeholder='Enter a topic...'
                         />
-                        <button type='submit'>Add to Account</button>
+                        <button className='add-button' type='submit'>
+                        Add to Account</button>
                         <button 
                         onClick={refresh} 
                         type='reset' 

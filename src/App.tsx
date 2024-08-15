@@ -90,7 +90,7 @@ function App() {
                         onChange={(e) => setUsername(e.currentTarget.value)}
                         placeholder='Username'
                         />
-                        <button type='submit'>Search</button>
+                        <button className='login-button' type='submit'>Log In</button>
                     </form>
                 </div>
             );
