@@ -31,8 +31,6 @@ function Navbar({ currentTab } : NavbarProps){
         <div className='navbar'>
             <div className='left'>
                 <h1 className='title'>Babble Index</h1>
-            </div>
-            <div className='centre'>
                 <h1 className='tab' onClick={changeToTopic}>Topic Search</h1>
                 <h1 className='tab' onClick={changeToLiveUpdates}>Live Updates</h1>
             </div>
