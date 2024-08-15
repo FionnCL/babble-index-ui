@@ -59,7 +59,7 @@ function App() {
         }
 
         const loginResponse: AxiosResponse = await axiosTranscriptClient
-        .post(`/verify/user`, 
+        .post(`/user/verify`, 
               userObject, 
               axiosTranscriptConfig
         );
