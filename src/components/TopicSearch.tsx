@@ -3,36 +3,36 @@ import axios, {
     AxiosResponse, 
     AxiosRequestConfig, 
     RawAxiosRequestHeaders 
-} from "axios";
+} from 'axios';
 
-import { SearchResults } from "../dtos/SearchResults";
-import ResultCard from "./ResultCard";
+import { SearchResults } from '../dtos/SearchResults';
+import ResultCard from './ResultCard';
 import './TopicSearch.css';
 
 const axiosSearchClient = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: 'http://localhost:3000',
 });
 
 const axiosSearchConfig: AxiosRequestConfig = {
     headers: {
-        "Accept": "application/json"
+        'Accept': 'application/json'
     } as RawAxiosRequestHeaders,
 };
 
 function TopicSearch(){
-    const [input, setInput] = useState(""); 
-    const [topicMessage, setTopicMessage] = useState("");
+    const [input, setInput] = useState(''); 
+    const [topicMessage, setTopicMessage] = useState('');
     const [results, setResults] = useState<SearchResults|undefined>(undefined);
 
     function refresh(){
-        setInput("");
-        setTopicMessage("");
+        setInput('');
+        setTopicMessage('');
         setResults(undefined);
     }
 
     // When the results/topicMessage variables change, this is invoked.
     useEffect(() => {
-        // Displays "results found", message.
+        // Displays 'results found', message.
         if (results && topicMessage) {
             setTopicMessage(`Displaying results on ${input}`);
         }
@@ -40,7 +40,7 @@ function TopicSearch(){
 
     async function handle_topic() {
         // Display wait message.
-        setTopicMessage("Searching for recent sentiment on " + input + "...");
+        setTopicMessage('Searching for recent sentiment on ' + input + '...');
         
         const searchResponse: AxiosResponse = await axiosSearchClient.get(
             `/search/topic/${input}`, axiosSearchConfig);
@@ -72,22 +72,22 @@ function TopicSearch(){
         <div className='topic-search'>
             <h1>Search By Topic</h1>
             <form
-            className="row"
+            className='row'
             onSubmit={(e) => {
                 e.preventDefault();
                 handle_topic();
             }}>
                 <input
-                id="greet-input"
+                id='greet-input'
                 onChange={(e) => setInput(e.currentTarget.value)}
-                placeholder="Enter a topic..."
+                placeholder='Enter a topic...'
                 />
-                <button type="submit">Search</button>
-                <button type="reset" className="restart" 
+                <button type='submit'>Search</button>
+                <button type='reset' className='restart' 
                 onClick={refresh}>⟳ </button>
             </form>
             <p>{topicMessage}</p>
-            <div className="resultcards">
+            <div className='resultcards'>
                 {Results(results)}
             </div>
         </div>

@@ -8,7 +8,7 @@ import axios, {
 
 import './App.css';
 
-import { PostUser } from './dtos/PostUser';
+import { User } from './dtos/User';
 import Navbar from './components/Navbar';
 import TopicSearch from './components/TopicSearch';
 import LiveUpdates from './components/LiveUpdates';
@@ -37,7 +37,7 @@ function App() {
             case 'topic':
                 return <TopicSearch/>;
             case 'live':
-                return <LiveUpdates/>;
+                return <LiveUpdates username={username}/>;
             default:
                 return <TopicSearch/>;
         }
@@ -54,7 +54,7 @@ function App() {
         //  - Just for proof of concept.
         //  And to mention the obvious: no password.
 
-        const userObject: PostUser = {
+        const userObject: User = {
             username: username
         }
 

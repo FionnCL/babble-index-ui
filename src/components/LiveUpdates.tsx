@@ -5,32 +5,40 @@ import axios, {
     RawAxiosRequestHeaders 
 } from 'axios';
 
+import { UserKeyword } from '../dtos/UserKeyword';
 import './LiveUpdates.css';
 
-const axiosSearchClient = axios.create({
-    baseURL: 'http://localhost:4000',
+const axiosKeywordClient = axios.create({
+    baseURL: 'http://localhost:3000',
 });
 
-const axiosSearchConfig: AxiosRequestConfig = {
+const axiosKeywordConfig: AxiosRequestConfig = {
     headers: {
         'Accept': 'application/json'
     } as RawAxiosRequestHeaders,
 };
 
-function LiveUpdates(){
-    const [input, setInput] = useState('');
+function LiveUpdates({username}: 
+ {username: string}){
+    const [keyword, setKeyword] = useState('');
+
 
     async function addKeywordToAccount() {
-        const searchResponse: AxiosResponse = await axiosSearchClient.get(
-            `/search/topic/${input}`, axiosSearchConfig);
+        if(username === '') { return; }
+
+        const userKeywordObject: UserKeyword = {
+            username: username,
+            keyword: keyword
+        }
+
+        const searchResponse: AxiosResponse = await axiosKeywordClient.post(
+            `/user/add-keyword`, userKeywordObject, axiosKeywordConfig);
         
         console.log(searchResponse);
-        // Set the results of the search;
-        //setResults(searchResponse.data);
     }
 
     function refresh(){
-        setInput('');
+        setKeyword('');
     }
 
     return(
@@ -46,8 +54,8 @@ function LiveUpdates(){
                         addKeywordToAccount();
                     }}>
                         <input
-                        onChange={(e) => setInput(e.currentTarget.value)}
-                        placeholder='Enter a topic...'
+                        onChange={(e) => setKeyword(e.currentTarget.value)}
+                        placeholder='Keyword'
                         />
                         <button className='add-button' type='submit'>
                         Add to Account</button>
