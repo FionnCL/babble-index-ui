@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactNode } from 'react';
 import axios, { 
     AxiosResponse, 
     AxiosRequestConfig, 
@@ -6,6 +6,7 @@ import axios, {
 } from 'axios';
 
 import { UserKeyword } from '../dtos/UserKeyword';
+import { Keyword } from '../dtos/Keyword';
 import './LiveUpdates.css';
 
 const axiosKeywordClient = axios.create({
@@ -21,7 +22,12 @@ const axiosKeywordConfig: AxiosRequestConfig = {
 function LiveUpdates({username}: 
  {username: string}){
     const [keyword, setKeyword] = useState('');
+    const [userKeywords, setUserKeywords] = useState<string[]>([]);
 
+    useEffect(() => {
+        getKeywords();
+        renderKeywords(); 
+    },[]);
 
     async function addKeywordToAccount() {
         if(username === '') { return; }
@@ -31,14 +37,39 @@ function LiveUpdates({username}:
             keyword: keyword
         }
 
-        const searchResponse: AxiosResponse = await axiosKeywordClient.post(
+        await axiosKeywordClient.post(
             `/user/add-keyword`, userKeywordObject, axiosKeywordConfig);
-        
-        console.log(searchResponse);
+
+        await getKeywords();
+        renderKeywords(); 
+    }
+
+    function renderKeywords() {
+        const keywordHtml = userKeywords.map((keyword) => {
+            return <p>{keyword}</p>;
+        });
+
+        return keywordHtml;
     }
 
     function refresh(){
         setKeyword('');
+    }
+
+    async function getKeywords(){
+        if(username === '') { return; }
+
+        const getKeywordsResponse = 
+            await axiosKeywordClient.get<[Keyword[]]>(
+            `/user/get-keywords/${username}`, axiosKeywordConfig);
+        
+        console.log(getKeywordsResponse.data[0]);
+
+        const keywordValues = getKeywordsResponse.data[0].map((keyword) => {
+            return keyword.keyword;
+        });
+
+        setUserKeywords(keywordValues);
     }
 
     return(
@@ -64,6 +95,7 @@ function LiveUpdates({username}:
                         type='reset' 
                         className='restart'>⟳ </button>
                     </form>
+                    {renderKeywords()}
                 </div>
                 <div className='col'>
                     <h2>Mentions</h2> 
