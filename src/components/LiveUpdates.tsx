@@ -7,13 +7,15 @@ import axios, {
 
 import { UserKeyword } from '../dtos/UserKeyword';
 import { Keyword } from '../dtos/Keyword';
+import MentionCard from './MentionCard';
+import { Summary } from '../dtos/Summary';
 import './LiveUpdates.css';
 
-const axiosKeywordClient = axios.create({
+const axiosClient = axios.create({
     baseURL: 'http://localhost:3000',
 });
 
-const axiosKeywordConfig: AxiosRequestConfig = {
+const axiosConfig: AxiosRequestConfig = {
     headers: {
         'Accept': 'application/json'
     } as RawAxiosRequestHeaders,
@@ -23,10 +25,13 @@ function LiveUpdates({username}:
  {username: string}){
     const [keyword, setKeyword] = useState('');
     const [userKeywords, setUserKeywords] = useState<string[]>([]);
+    const [summaries, setSummaries] = useState<Summary[]>();
 
     useEffect(() => {
         getKeywords();
         renderKeywords(); 
+        getSummaries();
+        renderSummaries();
     },[]);
 
     async function addKeywordToAccount() {
@@ -37,8 +42,8 @@ function LiveUpdates({username}:
             keyword: keyword
         }
 
-        await axiosKeywordClient.post(
-            `/user/add-keyword`, userKeywordObject, axiosKeywordConfig);
+        await axiosClient.post(
+            `/user/add-keyword`, userKeywordObject, axiosConfig);
 
         await getKeywords();
         renderKeywords(); 
@@ -52,6 +57,21 @@ function LiveUpdates({username}:
         return keywordHtml;
     }
 
+    function renderSummaries() {
+        if(!summaries) { return <p>Pending summaries</p>; }
+
+        const summaryHtml = summaries.map((summary) => {
+            return(
+                <MentionCard 
+                podcast={summary.podcast} 
+                keyword={summary.keyword} 
+                summary={summary.summary}/>
+            );
+        });
+
+        return summaryHtml;
+    }
+
     function refresh(){
         setKeyword('');
     }
@@ -60,8 +80,8 @@ function LiveUpdates({username}:
         if(username === '') { return; }
 
         const getKeywordsResponse = 
-            await axiosKeywordClient.get<[Keyword[]]>(
-            `/user/get-keywords/${username}`, axiosKeywordConfig);
+            await axiosClient.get<[Keyword[]]>(
+            `/user/get-keywords/${username}`, axiosConfig);
         
         console.log(getKeywordsResponse.data[0]);
 
@@ -70,6 +90,26 @@ function LiveUpdates({username}:
         });
 
         setUserKeywords(keywordValues);
+    }
+
+    async function getSummaries(){
+        if(username === '') { return; }
+
+        const getSummariesResponse = 
+            await axiosClient.get<Summary[]>(
+            `/user/get-summaries/${username}`, axiosConfig);
+        
+        console.log(getSummariesResponse.data);
+
+        const summaryArray: Summary[] = getSummariesResponse.data.map((s) => {
+            return {
+                podcast: s.podcast,
+                keyword: s.keyword,
+                summary: s.summary
+            } as Summary;
+        });
+
+        setSummaries(summaryArray);
     }
 
     return(
@@ -99,6 +139,7 @@ function LiveUpdates({username}:
                 </div>
                 <div className='col'>
                     <h2>Mentions</h2> 
+                    {renderSummaries()}
                 </div>
             </div>
         </div>
