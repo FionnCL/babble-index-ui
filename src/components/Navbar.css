@@ -5,12 +5,14 @@
     width: 90vw;
 
     margin: .5em 0 .5em 0;
-    padding: 0;
+    padding: .25em;
 
-    color: white;
-    
     border-radius: 1.5em;
     background-color: #202020;
+
+    text-align: center;
+    vertical-align: middle;
+    line-height: 100%;
 }
 
 .left {
@@ -18,18 +20,28 @@
     justify-content: space-between;
 }
 
+.tab {
+    background-color: #242424;
+    border-radius: 1.5em;
+
+    font-size: 1rem;
+    padding: .75rem 1rem .5rem 1rem;
+    margin: 0 .1em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1rem;
+}
+
+.highlighted {
+    background-color: #242424;
+    border-style: solid;
+    border-color: #303030;
+    border-width: 2px;
+    border-radius: 1.5em;
+}
+
 .tab:hover {
     cursor: pointer; 
-}
-
-.left > h1 {
-    font-size: 1.25rem;
-    margin: .5rem 1rem .25rem 1rem;
-}
-
-.centre > h1 {
-    font-size: 1.25rem;
-    margin: .5rem 1rem .25rem 1rem;
 }
 
 .navbar > img {

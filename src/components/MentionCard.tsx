@@ -4,14 +4,12 @@ function ResultCard
 ({podcast, keyword, summary}: 
  {podcast: string, keyword: string, summary: string}) {
     return(
-        <div className='resultcard'>
-            <div className='resultcard-information'>
+        <div className='mentioncard'>
+            <div className='mentioncard-information'>
                 <h1>{podcast}</h1>
-                <div className='source'>
-                    <h2 className='source-declaration'>{keyword}</h2> 
-                </div>
+                    <h2 className='mentioncard-keyword'>{keyword}</h2> 
             </div>
-            <p className='resultcard-summary'>{summary}</p>
+            <p className='mentioncard-summary'>{summary}</p>
         </div>
     );
 }

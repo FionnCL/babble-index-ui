@@ -51,7 +51,7 @@ function LiveUpdates({username}:
 
     function renderKeywords() {
         const keywordHtml = userKeywords.map((keyword) => {
-            return <p>{keyword}</p>;
+            return <h2 className='keyword'>{keyword}</h2>;
         });
 
         return keywordHtml;
@@ -60,9 +60,10 @@ function LiveUpdates({username}:
     function renderSummaries() {
         if(!summaries) { return <p>Pending summaries</p>; }
 
-        const summaryHtml = summaries.map((summary) => {
+        const summaryHtml = summaries.map((summary, idx) => {
             return(
                 <MentionCard 
+                key={idx}
                 podcast={summary.podcast} 
                 keyword={summary.keyword} 
                 summary={summary.summary}/>
@@ -83,8 +84,6 @@ function LiveUpdates({username}:
             await axiosClient.get<[Keyword[]]>(
             `/user/get-keywords/${username}`, axiosConfig);
         
-        console.log(getKeywordsResponse.data[0]);
-
         const keywordValues = getKeywordsResponse.data[0].map((keyword) => {
             return keyword.keyword;
         });
@@ -99,8 +98,6 @@ function LiveUpdates({username}:
             await axiosClient.get<Summary[]>(
             `/user/get-summaries/${username}`, axiosConfig);
         
-        console.log(getSummariesResponse.data);
-
         const summaryArray: Summary[] = getSummariesResponse.data.map((s) => {
             return {
                 podcast: s.podcast,
@@ -119,7 +116,7 @@ function LiveUpdates({username}:
                 <div className='col'>
                     <h2>Keywords</h2>
                     <form
-                    className='row'
+                    className='keyword-form'
                     onSubmit={(e) => {
                         e.preventDefault();
                         addKeywordToAccount();
@@ -135,7 +132,9 @@ function LiveUpdates({username}:
                         type='reset' 
                         className='restart'>⟳ </button>
                     </form>
-                    {renderKeywords()}
+                    <div className='keywords'>
+                        {renderKeywords()}
+                    </div>
                 </div>
                 <div className='col'>
                     <h2>Mentions</h2> 

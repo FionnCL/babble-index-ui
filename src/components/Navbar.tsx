@@ -30,11 +30,14 @@ function Navbar({ currentTab } : NavbarProps){
     return(
         <div className='navbar'>
             <div className='left'>
-                <h1 className='title'>Babble Index</h1>
-                <h1 className='tab' onClick={changeToTopic}>Topic Search</h1>
-                <h1 className='tab' onClick={changeToLiveUpdates}>Live Updates</h1>
+                <h1 className={`tab ${tab=='topic' ? 'highlighted' : ''}`}
+                onClick={changeToTopic}>Topic Search</h1>
+                <h1 className={`tab ${tab=='live' ? 'highlighted' : ''}`} 
+                onClick={changeToLiveUpdates}>Live Updates</h1>
             </div>
-            <img onClick={openIdiroLink} alt='The Idiro Analytics logo.' src={idiro}/>
+            <img onClick={openIdiroLink} 
+            alt='The Idiro Analytics logo.' 
+            src={idiro}/>
         </div>
     );
 }

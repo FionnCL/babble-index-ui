@@ -1,9 +1,8 @@
-.resultcard {
-    width: 45%;
+.mentioncard {
+    width: 95%;
     max-height: 24rem;
 
     padding: 1em; 
-    margin: 1em;
 
     color: white;
 
@@ -11,13 +10,13 @@
     box-shadow: 0px 0px .25em 2px rgba(255, 255, 255, 0.1);
 }
 
-.resultcard-information {
+.mentioncard-information {
     padding: 0 0 .5rem 0;
     display: flex;
     flex-direction: column;
 }
 
-.resultcard-information > h1 {
+.mentioncard-information > h1 {
     margin: .125rem;
     padding: 0;
 
@@ -25,24 +24,14 @@
     font-size: 1.5rem;
 }
 
-.source {
-    display: inline-flex;
-}
 
-.source > h2 {
+.mentioncard-keyword {
+    display: inline-flex;
     color: rgba(255, 255, 255, 0.75);
     font-size: .75rem;
 }
 
-.source > .source-link {
-    color: darkcyan;
-}
-
-.source-link:hover {
-    cursor: pointer;
-}
-
-.resultcard-summary {
+.mentioncard-summary {
     text-align: left;
 
     padding: 0;
