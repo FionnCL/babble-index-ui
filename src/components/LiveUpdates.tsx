@@ -113,7 +113,7 @@ function LiveUpdates({username}:
         <div className='live-updates'>
             <h1>Live Updates</h1>
             <div className='cols'>
-                <div className='col'>
+                <div className='col right'>
                     <h2>Keywords</h2>
                     <form
                     className='keyword-form'

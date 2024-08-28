@@ -50,7 +50,7 @@ function App() {
 
     async function checkForUser() {
         // Bad practice:
-        //  - Should use JWTs or session auth.
+        //  - Should use JWTs/session+auth tokens.
         //  - Just for proof of concept.
         //  And to mention the obvious: no password.
 
@@ -79,7 +79,8 @@ function App() {
             );
         } else {
             return (
-                <div>
+                <div className='login'>
+                    <h1>Babble Index</h1>
                     <form
                     onSubmit={(e) => {
                         e.preventDefault();
@@ -90,7 +91,8 @@ function App() {
                         onChange={(e) => setUsername(e.currentTarget.value)}
                         placeholder='Username'
                         />
-                        <button className='login-button' type='submit'>Log In</button>
+                        <button className='login-button' type='submit'
+                        >Log In</button>
                     </form>
                 </div>
             );

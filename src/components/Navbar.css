@@ -21,6 +21,7 @@
 }
 
 .tab {
+    color: #D0D0D0;
     background-color: #242424;
     border-radius: 1.5em;
 
@@ -33,11 +34,7 @@
 }
 
 .highlighted {
-    background-color: #242424;
-    border-style: solid;
-    border-color: #303030;
-    border-width: 2px;
-    border-radius: 1.5em;
+    color: white;
 }
 
 .tab:hover {

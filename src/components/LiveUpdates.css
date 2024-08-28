@@ -22,6 +22,10 @@
     flex-direction: column;
 }
 
+.right {
+    border-right: 1px solid white;
+}
+
 .keywords {
     max-width: 90%;
 
