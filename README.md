@@ -4,6 +4,8 @@ Made using `Tauri`, `Vite`, and `React`.
 
 # How to run
 
-Simply install all dependencies using: `npm i`.
+Install all dependencies using: `npm i`.
 
-Then run using `npm run dev`.
+Run the web application using `npm run dev`.
+
+Run the desktop application using `npm run tauri dev`.
